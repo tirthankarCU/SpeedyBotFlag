@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: redis
+        tier: backend
     spec:
       containers:
       - name: master
@@ -20,5 +21,5 @@ spec:
             cpu: 100m
             memory: 400Mi
         ports:
-        - containerPort: 6379
+        - containerPort: 6379 
 ---

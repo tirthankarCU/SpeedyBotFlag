@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  selector:
+    matchLabels:
+      app: demucs-w
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: demucs-w
+        tier: backend
+    spec:
+      containers:
+      - name: d-backend
+        image: tirthankar95/demucs-worker:latest
+        env:
+        - name: FLASK_PORT
+          value: "5000"
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+  labels:
+    app: demucs-w
+    tier: backend
+spec:
+  ports:
+  - port: 8000
+    targetPort: 5000
+  selector:
+    app: demucs-w
+    tier: backend
+---
