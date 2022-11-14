@@ -8,3 +8,4 @@ push:
 	docker push $(DOCKERUSER)/demucs-worker:$(VERSION)
 	docker tag demucs-worker $(DOCKERUSER)/demucs-worker:latest
 	docker push $(DOCKERUSER)/demucs-worker:latest
+	

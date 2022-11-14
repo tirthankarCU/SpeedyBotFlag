@@ -1,4 +1,3 @@
-apiVersion: apps/v1
 mode: standalone
 
 ## Set default rootUser, rootPassword

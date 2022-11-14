@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
-import requests
-import json, jsonpickle
-import os
-import sys
 import base64
 import glob
+import json
+import os
+import sys
 
+import jsonpickle
+import requests
 
 #
 # Use localhost & port 5000 if not specified by environment variable REST
@@ -36,14 +37,21 @@ def mkReq(reqmethod, endpoint, data, verbose=True):
         return response.text
 
 #CMD -> python3 dummy.py localhost add 
-if len(sys.argv) < 4:
+if len(sys.argv) < 6:
     host = sys.argv[1]
     cmd = sys.argv[2]
+    addr = f"http://{host}"
+    headers = {'content-type': 'application/json'}
     if cmd=='add':
-        addr = f"http://{host}"
-        headers = {'content-type': 'application/json'}
-        add_url = addr + "/apiv1/add/10/10"
+        add_url = addr + f"/apiv1/add/{sys.argv[3]}/{sys.argv[4]}"
+        print(add_url)
         response = requests.post(add_url, headers=headers)
-        print(json.loads(response.text))
+        hash=json.loads(response.text)
+        print(hash)
+    if cmd=='fetch':
+        fetch_url=addr + f"/apiv1/fetch/{sys.argv[3]}"
+        print(fetch_url)
+        response = requests.post(fetch_url, headers=headers)
+        print(f'SUM - {json.loads(response.text)}')
 
 sys.exit(0)

@@ -9,14 +9,13 @@ import redis
 ##
 ## Configure test vs. production
 ##
-redisHost = os.getenv("REDIS_HOST") or "localhost"
-redisPort = os.getenv("REDIS_PORT") or 6379
-
-redisClient = redis.StrictRedis(host=redisHost, port=redisPort, db=0)
+redisHost = os.getenv("REDIS_HOST") or "redis-svc"
+redisPort = os.getenv("REDIS_PORT") or 6000
+redisClient = redis.Redis(host=redisHost, port=redisPort, db=1)
 
 while True:
     try:
-        work = redisClient.blpop("logging", timeout=0)
+        work = redisClient.brpop('logging')
         ##
         ## Work will be a tuple. work[0] is the name of the key from which the data is retrieved
         ## and work[1] will be the text log message. The message content is in raw bytes format
