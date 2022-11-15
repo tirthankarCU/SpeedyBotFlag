@@ -12,7 +12,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && \
     apt-get install -yq ffmpeg
     
 COPY worker-server.py /app
-ADD data /app/
 
 ENV	FLASK_PORT 5000
 

@@ -15,31 +15,41 @@ bucket_name_ip='queue'
 bucket_name_op='result'
 
 while True:
-    hash=rKV.brpop('MSGQ')[1].decode('utf-8')
+    hash=rKV.brpop('msgq')[1].decode('utf-8')
     rlogs.rpush('logging',f'WORKER: 1. Hashed Hash {hash}')
-    file=client.get_object(bucket_name_ip,f'{hash}.dat',f'{bucket_name_ip}/{hash}.dat')
+    file=client.get_object(bucket_name_ip,f'{hash}.mp3',f'{bucket_name_ip}/{hash}.mp3')
     rlogs.rpush('logging',f'WORKER: 2. Min.io')
+    fmp3=open("song.mp3",'wb')
     for data in file:
-        sdata=data.decode('utf-8')
-    sum=0
-    for x in sdata.split():
-        sum+=int(x)
-    rlogs.rpush('logging',f'WORKER: 3. Sum {sum}')
+        fmp3.write(data)
+    fmp3.close()
+    rlogs.rpush('logging',f'WORKER: 3. Song put in mp3 file')
+    cmd='ffmpeg -i song.mp3 song.wav'
+    os.system(cmd)
+    rlogs.rpush('logging',f'WORKER: 4. mp3 converted to wav')
     if not client.bucket_exists(bucket_name_op):
         print(f"Create bucket {bucket_name_op}")
         client.make_bucket(bucket_name_op)
-    file=open("sum.o",'w')
-    file.write(str(sum))
-    file.close()
+
     cmd=f'mkdir -p /{hash}'
     os.system(cmd)
-    cmd=f'mv sum.o /{hash}/'
+    cmd='demucs -n mdx_q song.wav'
     os.system(cmd)
-    rlogs.rpush('logging',f'WORKER: 4. FILE created sum.o')
-    client.fput_object(bucket_name_op,f"/{hash}/sum.o",f"./{hash}/sum.o")
+    cmd=f'mv separated/mdx_q/song/*.wav /{hash}/'
+    os.system(cmd)
+    cmd=f'rm -rf *.wav *.mp3 separated'
+    os.system(cmd)
+    rlogs.rpush('logging',f'WORKER: 4. Linux commands exec.')
+    
+    try:
+        client.fput_object(bucket_name_op,f"/{hash}/bass.wav",f"./{hash}/bass.wav")
+        client.fput_object(bucket_name_op,f"/{hash}/vocals.wav",f"./{hash}/vocals.wav")
+        client.fput_object(bucket_name_op,f"/{hash}/drums.wav",f"./{hash}/drums.wav")
+        client.fput_object(bucket_name_op,f"/{hash}/other.wav",f"./{hash}/other.wav")
+    except ResponseError as err:
+        print("Error when adding files.")
+        print(err)
     rlogs.rpush('logging',f'WORKER: 5. Pushed to Min.io/result')
 
-cmd='python -m demucs.separate --out /output /app/short-hop.mp3'
-# os.system(cmd)
 
 
