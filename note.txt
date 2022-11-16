@@ -1,7 +1,7 @@
 Ingress is not working locally, so I am doing port forwarding.
 	sudo lsof -i -P -n | grep LISTEN
 	kubectl port-forward svc/frontend-svc 9090:9090 &
-python3 user_app.py separate
+python3 user_app.py separate 'Hop Along - SisterCities.stem.mp3'
 python3 user_app.py queue
 python3 user_app.py track 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 bass.wav
 python3 user_app.py track 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 drums.wav
@@ -27,3 +27,4 @@ gcloud container clusters get-credentials lab7-cluster
 - Ensure that you are connected to your GKE cluster.
 gcloud container clusters get-credentials lab7-cluster --zone us-central1-a 
 gcloud container clusters delete lab7-cluster
+kubectl config get-contexts

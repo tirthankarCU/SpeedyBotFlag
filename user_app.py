@@ -49,7 +49,9 @@ if len(sys.argv) <= 4:
     addr = f"http://{host}"
     headers = {'content-type': 'application/json'}
     if cmd=='separate':
-        for mp3 in glob.glob("data/short-short-dreams.mp3"):
+        for mp3 in glob.glob("data/*.mp3"):
+            if mp3.split('/')[1]!=sys.argv[2]:
+                continue
             print(f"Step 1: /{mp3}")
             mkReq(requests.post, "apiv1/separate",
                 data={
