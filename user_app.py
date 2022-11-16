@@ -11,7 +11,7 @@ import glob
 #
 # Use localhost & port 5000 if not specified by environment variable REST
 #
-REST = os.getenv("REST") or "localhost:9090"
+REST = os.getenv("REST") or "localhost:80"
 
 ##
 # The following routine makes a JSON REST query of the specified type
