@@ -12,3 +12,18 @@ python3 user_app.py remove 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405
 python3 user_app.py remove 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 drums.wav
 python3 user_app.py remove 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 other.wav
 python3 user_app.py remove 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 vocals.wav
+
+gcloud
+./google-cloud-sdk/bin/gcloud init
+gcloud auth login
+gcloud projects create lab7-demucs --name="lab7Demucs" --labels=type=demucs 
+gcloud projects list --sort-by=projectId --limit=10
+gcloud config set project lab7-demucs
+gcloud config set compute/zone us-central1-a
+gcloud config set compute/region us-central1
+gcloud container clusters create lab7-cluster --machine-type=e2-medium --zone=us-central1-a  --num-nodes=1
+gcloud container clusters get-credentials lab7-cluster 
+
+- Ensure that you are connected to your GKE cluster.
+gcloud container clusters get-credentials lab7-cluster --zone us-central1-a 
+gcloud container clusters delete lab7-cluster
