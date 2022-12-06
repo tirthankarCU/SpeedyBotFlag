@@ -38,6 +38,9 @@ while True:
         sen+=data.decode('utf-8')
     if checkWithBert(sen)==True:
         try:
+            file=open(f"{hash}",'w')
+            file.write(sen)
+            file.close()
             client.fput_object(bucket_name_ip1,f"/{hash}",f"./{hash}")
             user=hash.split('.')[1]
             if rKV.exists(user)==True:

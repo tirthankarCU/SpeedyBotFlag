@@ -21,10 +21,14 @@ gcloud projects list --sort-by=projectId --limit=10
 gcloud config set project lab7-demucs
 gcloud config set compute/zone us-central1-a
 gcloud config set compute/region us-central1
+gcloud services enable container.googleapis.com
+gcloud container clusters create speedy-bot --machine-type=e2-custom-4-4096 --zone=us-central1-a  --num-nodes=1
 gcloud container clusters create lab7-cluster --machine-type=e2-medium --zone=us-central1-a  --num-nodes=1
+gcloud container clusters create lab7-cluster --machine-type=e2-highmem --zone=us-central1-a  --num-nodes=1
 gcloud container clusters get-credentials lab7-cluster 
 
 - Ensure that you are connected to your GKE cluster.
 gcloud container clusters get-credentials lab7-cluster --zone us-central1-a 
 gcloud container clusters delete lab7-cluster
 kubectl config get-contexts
+kubectl config set current-context docker-desktop
