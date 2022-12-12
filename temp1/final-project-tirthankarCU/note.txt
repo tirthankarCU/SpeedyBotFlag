@@ -1,0 +1,34 @@
+Ingress is not working locally, so I am doing port forwarding.
+	sudo lsof -i -P -n | grep LISTEN
+	kubectl port-forward svc/frontend-svc 9090:9090 &
+python3 user_app.py separate 'Hop Along - SisterCities.stem.mp3'
+python3 user_app.py queue
+python3 user_app.py track 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 bass.wav
+python3 user_app.py track 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 drums.wav
+python3 user_app.py track 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 other.wav
+python3 user_app.py track 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 vocals.wav
+
+python3 user_app.py remove 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 bass.wav
+python3 user_app.py remove 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 drums.wav
+python3 user_app.py remove 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 other.wav
+python3 user_app.py remove 56115883d92f8b25fe6f7d75b7628132bb4cf4920d1f657e1e405ea5c3d603d6 vocals.wav
+
+gcloud
+./google-cloud-sdk/bin/gcloud init
+gcloud auth login
+gcloud projects create lab7-demucs --name="lab7Demucs" --labels=type=demucs 
+gcloud projects list --sort-by=projectId --limit=10
+gcloud config set project lab7-demucs
+gcloud config set compute/zone us-central1-a
+gcloud config set compute/region us-central1
+gcloud services enable container.googleapis.com
+gcloud container clusters create speedy-bot --machine-type=e2-custom-4-4096 --zone=us-central1-a  --num-nodes=1
+gcloud container clusters create lab7-cluster --machine-type=e2-medium --zone=us-central1-a  --num-nodes=1
+gcloud container clusters create lab7-cluster --machine-type=e2-highmem --zone=us-central1-a  --num-nodes=1
+gcloud container clusters get-credentials lab7-cluster 
+
+- Ensure that you are connected to your GKE cluster.
+gcloud container clusters get-credentials lab7-cluster --zone us-central1-a 
+gcloud container clusters delete lab7-cluster
+kubectl config get-contexts
+kubectl config set current-context docker-desktop

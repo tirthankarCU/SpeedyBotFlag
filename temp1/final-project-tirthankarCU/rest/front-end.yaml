@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: demucs
+      tier: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: demucs
+        tier: frontend
+    spec:
+      containers:
+      - name: d-frontend
+        image: tirthankar95/demucs-rest:latest
+        env:
+        - name: FLASK_PORT
+          value: "5000"
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+  labels:
+    app: demucs
+    tier: frontend
+spec:
+  ports:
+  - port: 9090
+    targetPort: 5000
+  selector:
+    app: demucs
+    tier: frontend
+---
