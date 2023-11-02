@@ -10,4 +10,4 @@ flagging model.
 classify the safety of a user post.
 
 High Level Design.
-![picture of high level design.](http://url/to/img.png)
+![picture of high level design.]([http://url/to/img.png](https://github.com/tirthankarCU/SpeedyBotFlag/blob/main/HighLevelArchitecture.png)https://github.com/tirthankarCU/SpeedyBotFlag/blob/main/HighLevelArchitecture.png)
