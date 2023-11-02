@@ -8,3 +8,6 @@ flagging model.
 
 - To make our application low latency we use a simple risk averse model for initial checks and later on use a better time consuming model to
 classify the safety of a user post.
+
+High Level Design.
+![picture of high level design.](http://url/to/img.png)
